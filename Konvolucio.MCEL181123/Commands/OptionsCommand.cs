@@ -19,7 +19,7 @@ namespace Konvolucio.MCEL181123.Commands
             ShortcutKeys = Keys.None;
             DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             Enabled = true; 
-            EventAggregator.Instance.Subscribe<PlayAppEvent>(n => Enabled = false );
+
         }
 
         protected override void OnClick(EventArgs e)

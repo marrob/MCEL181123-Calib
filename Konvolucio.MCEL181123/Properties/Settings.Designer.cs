@@ -12,7 +12,7 @@ namespace Konvolucio.MCEL181123.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -122,12 +122,12 @@ namespace Konvolucio.MCEL181123.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool PlayAfterStartUp {
+        public bool OpenAfterStartUp {
             get {
-                return ((bool)(this["PlayAfterStartUp"]));
+                return ((bool)(this["OpenAfterStartUp"]));
             }
             set {
-                this["PlayAfterStartUp"] = value;
+                this["OpenAfterStartUp"] = value;
             }
         }
         
@@ -181,61 +181,13 @@ namespace Konvolucio.MCEL181123.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SendViewScope {
+        [global::System.Configuration.DefaultSettingValueAttribute("COM1")]
+        public string SeriaPortName {
             get {
-                return ((string)(this["SendViewScope"]));
+                return ((string)(this["SeriaPortName"]));
             }
             set {
-                this["SendViewScope"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int SendViewRack {
-            get {
-                return ((int)(this["SendViewRack"]));
-            }
-            set {
-                this["SendViewRack"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int SendViewModul {
-            get {
-                return ((int)(this["SendViewModul"]));
-            }
-            set {
-                this["SendViewModul"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SendViewName {
-            get {
-                return ((string)(this["SendViewName"]));
-            }
-            set {
-                this["SendViewName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public string SendViewValue {
-            get {
-                return ((string)(this["SendViewValue"]));
-            }
-            set {
-                this["SendViewValue"] = value;
+                this["SeriaPortName"] = value;
             }
         }
     }

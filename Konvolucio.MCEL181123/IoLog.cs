@@ -33,6 +33,7 @@ namespace Konvolucio.MCEL181123
         {
             Enabled = true;
             FilePath = "IoLog.txt";
+            WirteLine("**** Appliction Start ****");
         }
 
         public void WirteLine(string line)

@@ -11,11 +11,11 @@ namespace Konvolucio.MCEL181123
     using System.Diagnostics;
     using Properties;
     using Events;
-    using Database;
     using System.ComponentModel;
     using Common;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using Controls;
 
     static class Program
     {
@@ -37,13 +37,7 @@ namespace Konvolucio.MCEL181123
     {
         public static SynchronizationContext SyncContext = null;
 
-
         IMainForm _mainForm;
-        Explorer _explorer;
-        IIoService _ioService;
-        TcpService _tcpService;
-
-        private readonly TreeNode _startTreeNode;
 
         public App()
         {
@@ -66,23 +60,24 @@ namespace Konvolucio.MCEL181123
             _mainForm.FormClosing += MainForm_FormClosing;
             _mainForm.FormClosed += new FormClosedEventHandler(MainForm_FormClosed);
 
-            /*** Explorer ***/
-            _explorer = new Explorer();
-
-            /*** IoService ***/
-            _ioService = new IoService(_explorer);
-            _ioService.Started += IoService_Started;
-            _ioService.Stopped += IoService_Stopped;
 
             /*** TimerService ***/
             TimerService.Instance.Interval = Settings.Default.GuiRefreshRateMs;
 
-            /*** TcpService ***/
-            _tcpService = new TcpService();
-            _tcpService.ParserCallback = TcpServiceParser;
-            _tcpService.Begin(null);
-            _tcpService.Completed += TcpService_Completed;
-
+            /*** Trace ***/
+            TimerService.Instance.Tick += (o, e) =>
+            {
+                for (int i = 0; DevIoSrv.Instance.TraceQueue.Count != 0; i++)
+                {
+                    string str = DevIoSrv.Instance.TraceQueue.Dequeue();
+                    if (str.Contains("Rx:"))
+                        _mainForm.RichTextBoxTrace.AppendText(str + "\r\n", System.Drawing.Color.Red, false);
+                    else if (str.Contains("Tx:"))
+                        _mainForm.RichTextBoxTrace.AppendText(str + "\r\n", System.Drawing.Color.Blue);
+                    else
+                        _mainForm.RichTextBoxTrace.AppendText(str + "\r\n", System.Drawing.Color.Black);
+                }
+            };
 
             /*** Menu Bar ***/
             #region MenuBar      
@@ -105,9 +100,7 @@ namespace Konvolucio.MCEL181123
             runMenu.DropDown.Items.AddRange(
             new ToolStripItem[]
                {
-                     new Commands.PlayCommand(_ioService),
-                     new Commands.StopCommand(_ioService),
-                     new Commands.ResetCommand()
+                    
                });
 
             _mainForm.MenuBar = new ToolStripItem[]
@@ -119,71 +112,14 @@ namespace Konvolucio.MCEL181123
                 };
             #endregion
 
-            /*** SendView ***/
-            #region SendView
-            var sendView = _mainForm.SendView;
-            sendView.Signals = CanDb.Instance.Signals.Where(n => n.Message.NodeType.Name == NodeCollection.NODE_PC ).Select(n=>n.Name).ToArray();
-            sendView.SelectedSignalChanged += (o, s) =>
-            {
-                sendView.Value = CanDb.Instance.Signals.FirstOrDefault(n => n.Name == sendView.SelectedSignal).DefaultValue;
-            };
-            sendView.Send += (o, s) =>
-            {
-              var msg = CanDb.MakeMessage
-                (
-                    nodeTypeId: CanDb.Instance.Nodes.FirstOrDefault(n=>n.Name == NodeCollection.NODE_PC).NodeTypeId,
-                    nodeAddress: sendView.Address,
-                    broadcast: sendView.Broadcast,
-                    signal: CanDb.Instance.Signals.FirstOrDefault(n => n.Name == sendView.SelectedSignal),
-                    value: sendView.Value
-                    
-                    
-                );
 
-                _ioService.TxQueue.Enqueue(msg);
-            };
-            #endregion
 
-            /*** Tree ***/
-            #region Tree
-            _mainForm.Tree.AfterSelect += Tree_AfterSelect;
-            _mainForm.Tree.Nodes.AddRange(
-                new TreeNode[]
-                    {
-                        new View.TreeNodes.RacksTreeNode(_explorer),
-                        new View.TreeNodes.ModulsTree(_explorer),
-                        new View.TreeNodes.WaitForParseTreeNode(_ioService),
-                        new View.TreeNodes.DropFrameTreeNode(_ioService),
-                        new View.TreeNodes.ParsedFrameTreeNode(_ioService),
-                        new View.TreeNodes.RxFramesTreeNode(_ioService),
-                        new View.TreeNodes.TxFramesTreeNode(_ioService),
-                        new View.TreeNodes.WaitForTxTreeNode(_ioService),
-                        new View.TreeNodes.IoLogTreeNode()
-                    });
 
-            _mainForm.Tree.ContextMenuStrip = new ContextMenuStrip();
-            _mainForm.Tree.ContextMenuStrip.Items.AddRange(
-                new ToolStripItem[]
-                {
-                    new View.Commands.OpenCanIOLogFileCommand(),
-                    new View.Commands.DeleteCanIOLogFileCommand(),
-                    new View.Commands.OpenExplorerCanIOLogFileCommand(),
-                });
-
-            #endregion
-
-            /*** DataGrid ***/
-            var grid = _mainForm.DataGrid;
-            grid.DataSource = _explorer.Devices;
-          
             /*** StatusBar ***/    
             #region StatusBar
             _mainForm.StatusBar = new ToolStripItem[]
             {
-                new StatusBar.AppLogStatus(),
-                new StatusBar.WaitForParseFramesStatus(_ioService),
-                new StatusBar.ParsedFramesStatus(_ioService),
-                new StatusBar.DroppedFramesStatus(_ioService),                
+                new StatusBar.AppLogStatus(),               
                 new StatusBar.EmptyStatus(),
                 new StatusBar.VersionStatus(),
                 new StatusBar.LogoStatus(),
@@ -194,77 +130,12 @@ namespace Konvolucio.MCEL181123
             Application.Run((MainForm)_mainForm);
         }
 
-        /*** TcpService ***/
-        private string TcpServiceParser(string line)
-        {
-            line = Regex.Replace(line, @"\s+", " ");
-            var array = line.Trim().Split(' ');
-            var addrStr = array[0].Trim();
-            var command = array[1].Trim();
-
-            byte address = 0;
-            if (!addrStr.Contains("#"))
-                return "Emulator address format is invalid. Use this: '#A1 MEAS:VOLT?' (-???)";
-
-            if (!byte.TryParse(addrStr.Substring(1), out address))
-                return "Data Type Error (-104)";
-
-            if (_explorer.Devices.Count != 0)
-            {    
-                switch (command)
-                {
-                    case "MEAS:CURR?": return _explorer.Devices.FirstOrDefault(n => n.Address == address).SIG_MCEL_C_MEAS.ToString(); 
-                    case "MEAS:VOLT?": return _explorer.Devices.FirstOrDefault(n => n.Address == address).SIG_MCEL_V_MEAS.ToString();
-                    case "VOLT":
-                        {
-                            double par;
-                            if (string.IsNullOrEmpty(array[2]))
-                                return "Missing Paramtert (-109)";
-                            else if (!double.TryParse(array[2], out par))
-                                return "Data Type Error (-104)";
-                            var msg = CanDb.MakeMessage
-                             (
-                              nodeTypeId: CanDb.Instance.Nodes.FirstOrDefault(n => n.Name == NodeCollection.NODE_PC).NodeTypeId,
-                              nodeAddress: address,
-                              broadcast: false,
-                              signal: CanDb.Instance.Signals.FirstOrDefault(n => n.Name == "SIG_PC_CV_SET"),
-                              value: par.ToString()
-                             );
-                            _ioService.TxQueue.Enqueue(msg);
-                            return "OK";
-                        }
-                }                
-            }
-            else
-            {
-                return "Hardware Missing (-241)";
-            }
-
-            return "UNKNOWN";
-        }
-
-        private void TcpService_Completed(object sender, RunWorkerCompletedEventArgs e)
-        {
-            AppLog.Instance.WirteLine(e.Error.Message);
-        }
 
         private void Tree_AfterSelect(object sender, TreeViewEventArgs e)
         {
             EventAggregator.Instance.Publish(new TreeNodeChangedAppEvent(e.Node));
         }
 
-        private void IoService_Started(object sender, EventArgs e)
-        {
-            EventAggregator.Instance.Publish(new PlayAppEvent(_ioService));
-            _explorer.StartTimeSamp = DateTime.Now;
-            TimerService.Instance.Start();
-        }
-
-        private void IoService_Stopped(object sender, EventArgs e)
-        {
-            EventAggregator.Instance.Publish(new StopAppEvent(_ioService));
-            TimerService.Instance.Stop();
-        }
 
         void MainForm_Shown(object sender, EventArgs e)
         {
@@ -275,20 +146,15 @@ namespace Konvolucio.MCEL181123
             SyncContext = SynchronizationContext.Current;
             _mainForm.LayoutRestore();
 
-            /* Megnyitást követően rá áll az Adapter Nódra a TreeView-ban.*/
-            _mainForm.Tree.Nodes[0].ExpandAll();
-            _mainForm.Tree.SelectedNode = _startTreeNode;
 
             //_mainForm.LayoutRestore();
             /*Ö tölti be a projectet*/
             Start(Environment.GetCommandLineArgs());
+            TimerService.Instance.Start();
             /*Kezdő Node Legyen az Adapter node*/
             //EventAggregator.Instance.Publish<TreeViewSelectionChangedAppEvent>(new TreeViewSelectionChangedAppEvent(_startTreeNode));
 
             EventAggregator.Instance.Publish(new ShowAppEvent());
-
-           // if (Settings.Default.PlayAfterStartUp)
-                _ioService.Play();
         }
 
         public void Start(string[] args)
@@ -311,7 +177,6 @@ namespace Konvolucio.MCEL181123
             Debug.WriteLine(GetType().Namespace + "." + GetType().Name + "." + MethodBase.GetCurrentMethod().Name + "()");
 #endif
             TimerService.Instance.Dispose();
-            _ioService.Dispose();
             _mainForm.LayoutSave();
             Settings.Default.Save();
             EventAggregator.Instance.Dispose();

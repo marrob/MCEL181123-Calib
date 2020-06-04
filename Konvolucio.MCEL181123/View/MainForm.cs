@@ -11,9 +11,9 @@ namespace Konvolucio.MCEL181123
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using View;
-    using Database;
     using Common;
     using Properties;
+    using Controls;
 
     public interface IMainForm : IWindowLayoutRestoring 
     {
@@ -25,11 +25,9 @@ namespace Konvolucio.MCEL181123
 
         string Text { get; set; }
         ToolStripItem[] MenuBar { set; }
-        ISignalSendView SendView {get;}
-        TreeView Tree { get; }
-        DataGridView DataGrid { get; }
         ToolStripItem[] StatusBar { set; }
         bool AlwaysOnTop { get; set; }
+        KnvRichTextBox RichTextBoxTrace { get; }
 
 
         //event KeyEventHandler KeyUp;
@@ -48,12 +46,6 @@ namespace Konvolucio.MCEL181123
             set { menuStrip1.Items.AddRange(value); }
         }
 
-        public ISignalSendView SendView { get => signalSendViewControl1; }
-
-        public TreeView Tree { get { return treeView1; } }
-
-        public DataGridView DataGrid { get { return dataGridView1; } }
-
         public ToolStripItem[] StatusBar
         {
             set { statusStrip1.Items.AddRange(value); }
@@ -69,9 +61,9 @@ namespace Konvolucio.MCEL181123
         {
             InitializeComponent();
 
-            dataGridView1.AutoGenerateColumns = false;
-            columnVmeas.ToolTipText = CanDb.Instance.Signals.FirstOrDefault(n => n.Name == SignalCollection.SIG_MCEL_V_MEAS).Description;
         }
+
+        public KnvRichTextBox RichTextBoxTrace { get { return knvRichTextBox1; } }
 
         public void LayoutSave()
         {
@@ -80,7 +72,6 @@ namespace Konvolucio.MCEL181123
             Settings.Default.MainFormSize = Size;
             Settings.Default.MainTree_SplitterDistance = splitContainer1.SplitterDistance;
 
-            signalSendViewControl1.LayoutSave();
 
         }
 
@@ -91,9 +82,18 @@ namespace Konvolucio.MCEL181123
             Size = Settings.Default.MainFormSize;
             splitContainer1.SplitterDistance = Settings.Default.MainTree_SplitterDistance;
 
-            signalSendViewControl1.LayoutRestore();
 
         }
 
+        private void KnvRichTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            knvRichTextBox1.SelectionStart = knvRichTextBox1.Text.Length;
+            knvRichTextBox1.ScrollToCaret();
+        }
+
+        private void MainView1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
