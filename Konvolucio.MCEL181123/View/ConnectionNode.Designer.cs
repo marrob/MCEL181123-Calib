@@ -64,7 +64,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(500, 25);
+            this.label2.Size = new System.Drawing.Size(705, 25);
             this.label2.TabIndex = 5;
             this.label2.Text = "KAPCSOLAT";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -91,7 +91,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(221, 124);
+            this.button1.Location = new System.Drawing.Point(499, 124);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(82, 21);
             this.button1.TabIndex = 8;
@@ -110,7 +110,7 @@
             this.Controls.Add(this.checkBoxOpenAfterStart);
             this.Controls.Add(this.buttonOpen);
             this.Name = "ConnectionNode";
-            this.Size = new System.Drawing.Size(500, 300);
+            this.Size = new System.Drawing.Size(705, 300);
             this.ResumeLayout(false);
             this.PerformLayout();
 

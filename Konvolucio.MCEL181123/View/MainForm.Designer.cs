@@ -32,8 +32,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.mainView1 = new Konvolucio.MCEL181123.View.MainView();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.knvRichTextBox1 = new Konvolucio.MCEL181123.Controls.KnvRichTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -91,6 +91,15 @@
             this.splitContainer1.SplitterDistance = 320;
             this.splitContainer1.TabIndex = 7;
             // 
+            // mainView1
+            // 
+            this.mainView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainView1.Location = new System.Drawing.Point(0, 0);
+            this.mainView1.Name = "mainView1";
+            this.mainView1.Size = new System.Drawing.Size(980, 320);
+            this.mainView1.TabIndex = 0;
+            this.mainView1.Load += new System.EventHandler(this.MainView1_Load);
+            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
@@ -100,15 +109,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(980, 81);
             this.panel2.TabIndex = 0;
-            // 
-            // mainView1
-            // 
-            this.mainView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainView1.Location = new System.Drawing.Point(0, 0);
-            this.mainView1.Name = "mainView1";
-            this.mainView1.Size = new System.Drawing.Size(980, 320);
-            this.mainView1.TabIndex = 0;
-            this.mainView1.Load += new System.EventHandler(this.MainView1_Load);
             // 
             // knvRichTextBox1
             // 

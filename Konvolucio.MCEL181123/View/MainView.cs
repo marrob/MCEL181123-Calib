@@ -29,7 +29,6 @@ namespace Konvolucio.MCEL181123.View
                 _calibrationNode = new CalibrationNode() { Dock = DockStyle.Fill },
                 _measurementsNode = new FunctionsNode() { Dock = DockStyle.Fill },
             };
-
         }
 
         private void TreeViewNavigator_AfterSelect(object sender, TreeViewEventArgs e)
@@ -37,10 +36,10 @@ namespace Konvolucio.MCEL181123.View
             var selectedPanel = _ctrlPanels.FirstOrDefault(n => n.Name == e.Node.Name);
             if (selectedPanel != null)
             {
-                panel1.Controls.Clear();
-                panel1.Controls.Add(selectedPanel);
+                splitContainer1.Panel2.Controls.Clear();
+                splitContainer1.Panel2.Controls.Add(selectedPanel);
                 if (selectedPanel is IUIPanelProperties)
-                {
+                {          
                     (selectedPanel as IUIPanelProperties).UiUpdate();
                 }
             }

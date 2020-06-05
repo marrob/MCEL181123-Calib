@@ -110,6 +110,12 @@
     <Compile Include="View\CalibrationPanel.Designer.cs">
       <DependentUpon>CalibrationNode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ConfigItemControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ConfigItemControl.Designer.cs">
+      <DependentUpon>ConfigItemControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ConnectionNode.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -163,6 +169,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\AboutNode.resx">
       <DependentUpon>AboutNode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CalibrationNode.resx">
+      <DependentUpon>CalibrationNode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ConfigItemControl.resx">
+      <DependentUpon>ConfigItemControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ConnectionNode.resx">
       <DependentUpon>ConnectionNode.cs</DependentUpon>

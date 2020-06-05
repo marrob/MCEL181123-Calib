@@ -43,7 +43,6 @@ namespace Konvolucio.MCEL181123
 
         public void Open(string port)
         {
-
             try
             {
                 _sp = new SerialPort(port);
@@ -54,7 +53,7 @@ namespace Konvolucio.MCEL181123
             }
             catch (Exception ex)
             {
-                Trace("State: " + port + " Opened-Exception:" + ex.Message);
+                Trace("State: " + port + " Opened Exception:" + ex.Message);
             }
         }
 
@@ -157,21 +156,20 @@ namespace Konvolucio.MCEL181123
             if (_sp == null || !_sp.IsOpen)
                 return;
 
-            int rngid = 0;
             if (range == "100mA")
             {
-                rngid = 0;
+               WriteRead("#" + node.ToString("X2") + " " + "SET:RNG 0");
             }
             else if (range == "50uA")
             {
-                rngid = 1;
+                WriteRead("#" + node.ToString("X2") + " " + "SET:RNG 1");
             }
             else
             {
-                throw new ArgumentException("50uA vagy 100mA lehet", "Current Range");
+                Trace("State: " + " ArgumentException :" + "50uA vagy 100mA lehet. " + "Current Range");
             }
 
-            var resp = WriteRead("#" + node.ToString("X2") + " " + "SET:RNG" + " " + rngid.ToString());
+            
         }
 
         public void SetVolt(byte node, double volt)
@@ -179,9 +177,39 @@ namespace Konvolucio.MCEL181123
             WriteRead("#" + node.ToString("X2") + " " + "SET:VOLT" + "  " + volt.ToString());
         }
 
-        public void SetCurrent(byte node, double current)
+        public void OutputOn(byte node)
+        {
+            WriteRead("#" + node.ToString("X2") + " " + "SET:OE 1");
+        }
+
+        public void OutputOff(byte node)
+        {
+            WriteRead("#" + node.ToString("X2") + " " + "SET:OE 0");
+        }
+
+        public void SetAmpers(byte node, double current)
         {
             WriteRead("#" + node.ToString("X2") + " " + "SET:CURR" + "  " + current.ToString());
+        }
+
+        public void SetSenseLocal(byte node)
+        {
+            WriteRead("#" + node.ToString("X2") + " " + "SET:RSENSE 0");
+        }
+
+        public void SetSenseRemote(byte node)
+        {
+            WriteRead("#" + node.ToString("X2") + " " + "SET:RSENSE 1");
+        }
+
+        public void SetTriggerVolt(byte node)
+        {
+            WriteRead("#" + node.ToString("X2") + " " + "TRIG:VOLT");
+        }
+        
+        public void SetTriggerCurrent(byte node)
+        {
+            WriteRead("#" + node.ToString("X2") + " " + "TRIG:CURR");
         }
 
         public void Close()
@@ -190,7 +218,9 @@ namespace Konvolucio.MCEL181123
             _sp.Close();
         }
 
-        void Trace(string msg)
+
+
+        public void Trace(string msg)
         {
             TraceQueue.Enqueue(DateTime.Now.ToString(AppConstants.GenericTimestampFormat) + " " + msg);
         }
