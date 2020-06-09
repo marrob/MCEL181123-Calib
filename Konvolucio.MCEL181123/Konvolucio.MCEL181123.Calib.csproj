@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9C926067-BB6A-4F2F-A87C-57374B9B0923}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Konvolucio.MCEL181123</RootNamespace>
-    <AssemblyName>Konvolucio.MCEL181123</AssemblyName>
+    <RootNamespace>Konvolucio.MCEL181123.Calib</RootNamespace>
+    <AssemblyName>Konvolucio.MCEL181123.Calib</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -56,6 +56,27 @@
     <Compile Include="Commands\AlwaysOnTopCommand.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="View\VoltageMeasNode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\VoltageMeasNode.Designer.cs">
+      <DependentUpon>VoltageMeasNode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\CurrentMeasNode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\CurrentMeasNode.Designer.cs">
+      <DependentUpon>CurrentMeasNode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Commands\ClearReachTextBoxCommand.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Commands\StartStopCommand .cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Commands\ComPortSelectCommand.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Commands\OptionsCommand.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -74,6 +95,7 @@
     </Compile>
     <Compile Include="Controls\RichTextBoxExtensions.cs" />
     <Compile Include="DevIoSrv.cs" />
+    <Compile Include="Events\ConnectionChangedAppEvent.cs" />
     <Compile Include="Events\ShowAppEvent.cs" />
     <Compile Include="Events\TreeNodeChangedAppEvent.cs" />
     <Compile Include="Events\EventAggregator.cs" />
@@ -84,7 +106,10 @@
     <Compile Include="Events\RefreshAppEvent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatusBar\AppLogStatus.cs">
+    <Compile Include="StatusBar\UpTimeCounterStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StatusBar\LogLinesStatus.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="StatusBar\EmptyStatus.cs">
@@ -104,11 +129,11 @@
     <Compile Include="View\AboutNode.designer.cs">
       <DependentUpon>AboutNode.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\CalibrationNode.cs">
+    <Compile Include="View\ConfigsNode.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\CalibrationPanel.Designer.cs">
-      <DependentUpon>CalibrationNode.cs</DependentUpon>
+    <Compile Include="View\ConfigsNode.Designer.cs">
+      <DependentUpon>ConfigsNode.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ConfigItemControl.cs">
       <SubType>UserControl</SubType>
@@ -116,11 +141,17 @@
     <Compile Include="Controls\ConfigItemControl.Designer.cs">
       <DependentUpon>ConfigItemControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\ConnectionNode.cs">
+    <Compile Include="View\HelpNode.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\ConnectionNode.Designer.cs">
-      <DependentUpon>ConnectionNode.cs</DependentUpon>
+    <Compile Include="View\HelpNode.Designer.cs">
+      <DependentUpon>HelpNode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingsNode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\SettingsNode.Designer.cs">
+      <DependentUpon>SettingsNode.cs</DependentUpon>
     </Compile>
     <Compile Include="View\HowIsWorkingForm.cs">
       <SubType>Form</SubType>
@@ -153,6 +184,12 @@
     <Compile Include="View\UpdatesForm.Designer.cs">
       <DependentUpon>UpdatesForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\VoltageMeasNode.resx">
+      <DependentUpon>VoltageMeasNode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CurrentMeasNode.resx">
+      <DependentUpon>CurrentMeasNode.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -170,14 +207,17 @@
     <EmbeddedResource Include="View\AboutNode.resx">
       <DependentUpon>AboutNode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\CalibrationNode.resx">
-      <DependentUpon>CalibrationNode.cs</DependentUpon>
+    <EmbeddedResource Include="View\ConfigsNode.resx">
+      <DependentUpon>ConfigsNode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConfigItemControl.resx">
       <DependentUpon>ConfigItemControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\ConnectionNode.resx">
-      <DependentUpon>ConnectionNode.cs</DependentUpon>
+    <EmbeddedResource Include="View\HelpNode.resx">
+      <DependentUpon>HelpNode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SettingsNode.resx">
+      <DependentUpon>SettingsNode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\HowIsWorkingForm.resx">
       <DependentUpon>HowIsWorkingForm.cs</DependentUpon>
@@ -223,7 +263,9 @@
   <ItemGroup>
     <None Include="Resources\adapter.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Delete48x48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

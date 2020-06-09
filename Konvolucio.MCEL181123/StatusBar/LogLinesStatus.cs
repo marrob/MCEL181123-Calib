@@ -1,13 +1,13 @@
 ﻿
 
-namespace Konvolucio.MCEL181123.StatusBar
+namespace Konvolucio.MCEL181123.Calib.StatusBar
 {
     using System;
     using System.Windows.Forms;
 
-    class AppLogStatus : ToolStripStatusLabel
+    class LogLinesStatus : ToolStripStatusLabel
     { 
-        public AppLogStatus()
+        public LogLinesStatus()
         {
             BorderSides = ToolStripStatusLabelBorderSides.Left;
             BorderStyle = Border3DStyle.Etched;
@@ -16,10 +16,8 @@ namespace Konvolucio.MCEL181123.StatusBar
 
             TimerService.Instance.Tick += (s, e) =>
             {
-                if (AppLog.Instance.GetRecodsCount.HasValue)
-                    Text = "AppLog" + @": " + AppLog.Instance.GetRecodsCount;
-                else
-                    Text = "AppLog" + @": " + AppConstants.ValueNotAvailable2;
+
+                Text = "Log Lines: " + DevIoSrv.Instance.TraceLines.ToString();
             };
         }
 

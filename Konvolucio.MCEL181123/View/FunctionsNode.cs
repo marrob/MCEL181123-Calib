@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Konvolucio.MCEL181123.Controls;
-
-namespace Konvolucio.MCEL181123.View
+﻿namespace Konvolucio.MCEL181123.Calib.View
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Data;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using Controls;
+
     public partial class FunctionsNode : UserControl, IUIPanelProperties
     {
         public FunctionsNode()
@@ -21,7 +21,7 @@ namespace Konvolucio.MCEL181123.View
             textBoxSetCurrent.Text = 99.ToString();
         }
 
-        public void UiUpdate()
+        public void UserEnter()
         {
             comboBox1.Text = DevIoSrv.Instance.GetCurrRange(0);
             ButtonRead_Click(null, null);
@@ -33,7 +33,6 @@ namespace Konvolucio.MCEL181123.View
             textBox2.Text = DevIoSrv.Instance.MeasCurr(0).ToString();
         }
 
-
         private void button3_Click(object sender, EventArgs e)
         {
             DevIoSrv.Instance.SetTriggerVolt(0);
@@ -42,8 +41,6 @@ namespace Konvolucio.MCEL181123.View
             DevIoSrv.Instance.SetTriggerCurrent(0);
             textBox2.Text = DevIoSrv.Instance.MeasCurr(0).ToString();
         }
-
-
 
         private void button3_Click_2(object sender, EventArgs e)
         {
@@ -67,10 +64,8 @@ namespace Konvolucio.MCEL181123.View
             
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-           
-
+        public void UserLeave()
+        { 
 
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Konvolucio.MCEL181123
+﻿namespace Konvolucio.MCEL181123.Calib
 {
     partial class MainForm
     {
@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.mainView1 = new Konvolucio.MCEL181123.View.MainView();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.knvRichTextBox1 = new Konvolucio.MCEL181123.Controls.KnvRichTextBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.mainView1 = new Konvolucio.MCEL181123.Calib.View.MainView();
+            this.knvRichTextBox1 = new Controls.KnvRichTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -42,14 +42,6 @@
             this.splitContainer1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(980, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
             // 
             // statusStrip1
             // 
@@ -91,15 +83,6 @@
             this.splitContainer1.SplitterDistance = 320;
             this.splitContainer1.TabIndex = 7;
             // 
-            // mainView1
-            // 
-            this.mainView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainView1.Location = new System.Drawing.Point(0, 0);
-            this.mainView1.Name = "mainView1";
-            this.mainView1.Size = new System.Drawing.Size(980, 320);
-            this.mainView1.TabIndex = 0;
-            this.mainView1.Load += new System.EventHandler(this.MainView1_Load);
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
@@ -109,6 +92,24 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(980, 81);
             this.panel2.TabIndex = 0;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(980, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // mainView1
+            // 
+            this.mainView1.BackColor = System.Drawing.SystemColors.Control;
+            this.mainView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainView1.Location = new System.Drawing.Point(0, 0);
+            this.mainView1.Name = "mainView1";
+            this.mainView1.Size = new System.Drawing.Size(980, 320);
+            this.mainView1.TabIndex = 0;
+            this.mainView1.Load += new System.EventHandler(this.MainView1_Load);
             // 
             // knvRichTextBox1
             // 
@@ -148,13 +149,13 @@
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private View.MainView mainView1;
         private System.Windows.Forms.Panel panel2;
         private Controls.KnvRichTextBox knvRichTextBox1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
     }
 }
 

@@ -1,5 +1,5 @@
 ﻿
-namespace Konvolucio.MCEL181123.Controls
+namespace Konvolucio.MCEL181123.Calib.Controls
 {
     using System;
     using System.Text;

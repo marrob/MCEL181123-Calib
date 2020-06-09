@@ -1,4 +1,4 @@
-﻿namespace Konvolucio.MCEL181123.View
+﻿namespace Konvolucio.MCEL181123.Calib.View
 {
     partial class UpdatesForm
     {

@@ -1,4 +1,4 @@
-﻿namespace Konvolucio.MCEL181123.View
+﻿namespace Konvolucio.MCEL181123.Calib.View
 {
     partial class AboutNode
     {
@@ -37,7 +37,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonSystemInfo = new System.Windows.Forms.Button();
-            this.richTextBox1 = new Konvolucio.MCEL181123.Controls.KnvRichTextBox();
+            this.richTextBox1 = new Controls.KnvRichTextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -128,7 +128,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button buttonSystemInfo;
-        private Konvolucio.MCEL181123.Controls.KnvRichTextBox richTextBox1;
+        private Controls.KnvRichTextBox richTextBox1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelCompanyName;

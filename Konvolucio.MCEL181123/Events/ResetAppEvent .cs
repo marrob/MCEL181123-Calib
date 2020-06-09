@@ -1,4 +1,4 @@
-﻿namespace Konvolucio.MCEL181123.Events
+﻿namespace Konvolucio.MCEL181123.Calib.Events
 {
     class ResetAppEvent : IApplicationEvent
     {

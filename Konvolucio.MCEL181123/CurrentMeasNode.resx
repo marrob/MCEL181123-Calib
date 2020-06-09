@@ -117,13 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label3.Text" xml:space="preserve">
-    <value>1. Az emulátor címát állítsa a 0-ás címre.
-2. Az emulátor rack címét állítsa a 0-ás címre.
-3. Csatlakoztassa CAN adataptert az emulátorhoz.
-4. Csatlakoztassa az adaptert az USB porthoz.
-5. Helyezze tápfeszültség alá az emulátort.
-6. Válassza ki a megfelelő sorosportot, válaszza Megnyitás nyomógombot.
-</value>
-  </data>
 </root>

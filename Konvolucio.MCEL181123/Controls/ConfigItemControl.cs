@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Konvolucio.MCEL181123.Controls
+namespace Konvolucio.MCEL181123.Calib.Controls
 {
   
 
@@ -16,6 +16,13 @@ namespace Konvolucio.MCEL181123.Controls
     { 
         public event EventHandler Send;
         
+
+        public string CurrentLimit
+        {
+            get { return comboBox1.Text; }
+            set { comboBox1.Text = value; }
+        }
+
         public string Label
         {
             set { groupBox1.Text = value;  }
@@ -55,7 +62,25 @@ namespace Konvolucio.MCEL181123.Controls
         {
             if (Send != null)
                 Send(this, EventArgs.Empty);
-               
+
+
+            comboBox1_SelectedIndexChanged(this, EventArgs.Empty);
+
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.Text == "100mA")
+            {
+                labelCurrentLimit.Text = "Current Limit (mA)";
+            }
+            else if(comboBox1.Text == "50uA")
+            {
+                labelCurrentLimit.Text = "Current Limit (uA)";
+            }
+
+
         }
     }
 }

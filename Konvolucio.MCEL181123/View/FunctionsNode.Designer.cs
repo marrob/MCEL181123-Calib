@@ -1,4 +1,4 @@
-﻿namespace Konvolucio.MCEL181123.View
+﻿namespace Konvolucio.MCEL181123.Calib.View
 {
     partial class FunctionsNode
     {
@@ -284,7 +284,6 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Remote";
             this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -320,7 +319,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "FunctionsNode";
-            this.Size = new System.Drawing.Size(433, 322);
+            this.Size = new System.Drawing.Size(882, 430);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);

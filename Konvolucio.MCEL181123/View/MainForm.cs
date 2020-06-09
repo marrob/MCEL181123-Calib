@@ -1,5 +1,5 @@
 ﻿
-namespace Konvolucio.MCEL181123
+namespace Konvolucio.MCEL181123.Calib
 {
     using System;
     using System.Collections.Generic;
@@ -29,12 +29,13 @@ namespace Konvolucio.MCEL181123
         bool AlwaysOnTop { get; set; }
         KnvRichTextBox RichTextBoxTrace { get; }
 
-
         //event KeyEventHandler KeyUp;
         //event HelpEventHandler HelpRequested; /*????*/
 
         //void CursorWait();
         //void CursorDefault();
+
+        
     }
 
 
@@ -60,10 +61,15 @@ namespace Konvolucio.MCEL181123
         public MainForm()
         {
             InitializeComponent();
-
         }
 
-        public KnvRichTextBox RichTextBoxTrace { get { return knvRichTextBox1; } }
+        public KnvRichTextBox RichTextBoxTrace 
+        {
+            get
+            {
+                return knvRichTextBox1; 
+            }
+        }
 
         public void LayoutSave()
         {
@@ -92,6 +98,11 @@ namespace Konvolucio.MCEL181123
         }
 
         private void MainView1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripComboBox1_Click(object sender, EventArgs e)
         {
 
         }

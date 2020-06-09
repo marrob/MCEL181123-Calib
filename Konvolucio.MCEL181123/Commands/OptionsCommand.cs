@@ -1,5 +1,5 @@
 ﻿
-namespace Konvolucio.MCEL181123.Commands
+namespace Konvolucio.MCEL181123.Calib.Commands
 {
     using System;
     using System.Diagnostics;

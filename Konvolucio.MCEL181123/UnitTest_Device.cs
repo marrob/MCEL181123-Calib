@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Konvolucio.MCEL181123
+namespace Konvolucio.MCEL181123.Calib
 {
     using System.Collections.Generic;
     using System.Linq;

@@ -1,6 +1,6 @@
 ﻿
 
-namespace Konvolucio.MCEL181123.StatusBar
+namespace Konvolucio.MCEL181123.Calib.StatusBar
 {
     using System.Windows.Forms;
 

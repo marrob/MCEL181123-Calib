@@ -1,6 +1,6 @@
-﻿namespace Konvolucio.MCEL181123.View
+﻿namespace Konvolucio.MCEL181123.Calib.View
 {
-    partial class CalibrationNode
+    partial class ConfigsNode
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,17 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.configItemControl6 = new Konvolucio.MCEL181123.Controls.ConfigItemControl();
-            this.configItemControl5 = new Konvolucio.MCEL181123.Controls.ConfigItemControl();
-            this.configItemControl4 = new Konvolucio.MCEL181123.Controls.ConfigItemControl();
-            this.configItemControl3 = new Konvolucio.MCEL181123.Controls.ConfigItemControl();
-            this.configItemControl2 = new Konvolucio.MCEL181123.Controls.ConfigItemControl();
-            this.configItemControl1 = new Konvolucio.MCEL181123.Controls.ConfigItemControl();
+            this.configItemControl6 = new Controls.ConfigItemControl();
+            this.configItemControl5 = new Controls.ConfigItemControl();
+            this.configItemControl4 = new Controls.ConfigItemControl();
+            this.configItemControl3 = new Controls.ConfigItemControl();
+            this.configItemControl2 = new Controls.ConfigItemControl();
+            this.configItemControl1 = new Controls.ConfigItemControl();
             this.SuspendLayout();
             // 
             // configItemControl6
             // 
             this.configItemControl6.Ampers = "99";
+            this.configItemControl6.CurrentLimit = "100mA";
             this.configItemControl6.Label = "Config 6";
             this.configItemControl6.Local = false;
             this.configItemControl6.Location = new System.Drawing.Point(638, 3);
@@ -52,6 +53,7 @@
             // configItemControl5
             // 
             this.configItemControl5.Ampers = "99";
+            this.configItemControl5.CurrentLimit = "100mA";
             this.configItemControl5.Label = "Config 5";
             this.configItemControl5.Local = false;
             this.configItemControl5.Location = new System.Drawing.Point(511, 3);
@@ -65,6 +67,7 @@
             // configItemControl4
             // 
             this.configItemControl4.Ampers = "99";
+            this.configItemControl4.CurrentLimit = "100mA";
             this.configItemControl4.Label = "Config 4";
             this.configItemControl4.Local = false;
             this.configItemControl4.Location = new System.Drawing.Point(384, 3);
@@ -78,6 +81,7 @@
             // configItemControl3
             // 
             this.configItemControl3.Ampers = "99";
+            this.configItemControl3.CurrentLimit = "100mA";
             this.configItemControl3.Label = "Config 3";
             this.configItemControl3.Local = false;
             this.configItemControl3.Location = new System.Drawing.Point(257, 3);
@@ -91,6 +95,7 @@
             // configItemControl2
             // 
             this.configItemControl2.Ampers = "99";
+            this.configItemControl2.CurrentLimit = "100mA";
             this.configItemControl2.Label = "Config 2";
             this.configItemControl2.Local = false;
             this.configItemControl2.Location = new System.Drawing.Point(130, 3);
@@ -104,6 +109,7 @@
             // configItemControl1
             // 
             this.configItemControl1.Ampers = "99";
+            this.configItemControl1.CurrentLimit = "100mA";
             this.configItemControl1.Label = "Config 1";
             this.configItemControl1.Local = false;
             this.configItemControl1.Location = new System.Drawing.Point(3, 3);
@@ -113,20 +119,21 @@
             this.configItemControl1.TabIndex = 0;
             this.configItemControl1.Volts = "0.1";
             this.configItemControl1.Send += new System.EventHandler(this.configItemControl_Send);
+            this.configItemControl1.Load += new System.EventHandler(this.configItemControl1_Load);
             // 
-            // CalibrationNode
+            // ConfigsNode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.configItemControl6);
             this.Controls.Add(this.configItemControl5);
             this.Controls.Add(this.configItemControl4);
             this.Controls.Add(this.configItemControl3);
             this.Controls.Add(this.configItemControl2);
             this.Controls.Add(this.configItemControl1);
-            this.Name = "CalibrationNode";
+            this.Name = "ConfigsNode";
             this.Size = new System.Drawing.Size(762, 279);
             this.ResumeLayout(false);
 

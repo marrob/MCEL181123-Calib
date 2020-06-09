@@ -15,6 +15,7 @@ namespace Konvolucio.MCEL181123.View
         public HowIsWorkingForm()
         {
             InitializeComponent();
+            this.Name = "HelpNode";
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 
-namespace Konvolucio.MCEL181123
+namespace Konvolucio.MCEL181123.Calib
 { 
     using System;
     using System.Collections.Generic;
@@ -13,11 +13,15 @@ namespace Konvolucio.MCEL181123
     public class DevIoSrv
     {
 
+        public event EventHandler ConnectionChanged;
+
         public static DevIoSrv Instance { get { return _instance; } }
 
         private static readonly DevIoSrv _instance = new DevIoSrv();
 
         public Queue<string> TraceQueue = new Queue<string>();
+        public int TraceLines { get; private set; }
+
         public SerialPort _sp;
         public bool IsOpen
         {
@@ -49,11 +53,14 @@ namespace Konvolucio.MCEL181123
                 _sp.ReadTimeout = 1000;
                 _sp.NewLine = "\n";
                 _sp.Open();
-                Trace("State: " + port + " Opened");
+                Trace("Serial Port: " + port + " is Open.");
+                Test();
+                OnConnectionChanged();
             }
             catch (Exception ex)
             {
-                Trace("State: " + port + " Opened Exception:" + ex.Message);
+                Trace("IO ERROR Serial Port is: " + port + " Open fail... beacuse:" + ex.Message);
+                OnConnectionChanged();
             }
         }
 
@@ -80,21 +87,33 @@ namespace Konvolucio.MCEL181123
         {
             if (_sp == null || !_sp.IsOpen)
             {
-                Trace("IO ERROR: port is closed " + str);
+                Trace("IO ERROR Serial Port is closed. " + str);
+                OnConnectionChanged();
                 return null;
             }
             try
             {
                 Trace("Tx: " + str);
                 _sp.WriteLine(str);
-               // IoLog.Instance.WirteLine(str);
+                // IoLog.Instance.WirteLine(str);
+            }
+            catch (Exception ex)
+            {
+                Trace("Tx ERROR Serial Port is:" + ex.Message);
+                OnConnectionChanged();
+            }
+
+            try
+            {
+
                 str = _sp.ReadLine();
-               // IoLog.Instance.WirteLine(str);
+                // IoLog.Instance.WirteLine(str);
                 Trace("Rx: " + str);
             }
             catch (Exception ex)
             {
-                Trace("IO-ERROR:" + ex.Message);
+                Trace("Rx ERROR Serial Port is:" + ex.Message);
+                OnConnectionChanged();
             }
             return str;
         }
@@ -144,7 +163,7 @@ namespace Konvolucio.MCEL181123
                     return "Unknown";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Trace("IO-ERROR:" + ex.Message);
             }
@@ -158,7 +177,7 @@ namespace Konvolucio.MCEL181123
 
             if (range == "100mA")
             {
-               WriteRead("#" + node.ToString("X2") + " " + "SET:RNG 0");
+                WriteRead("#" + node.ToString("X2") + " " + "SET:RNG 0");
             }
             else if (range == "50uA")
             {
@@ -169,7 +188,7 @@ namespace Konvolucio.MCEL181123
                 Trace("State: " + " ArgumentException :" + "50uA vagy 100mA lehet. " + "Current Range");
             }
 
-            
+
         }
 
         public void SetVolt(byte node, double volt)
@@ -206,23 +225,46 @@ namespace Konvolucio.MCEL181123
         {
             WriteRead("#" + node.ToString("X2") + " " + "TRIG:VOLT");
         }
-        
+
         public void SetTriggerCurrent(byte node)
         {
             WriteRead("#" + node.ToString("X2") + " " + "TRIG:CURR");
         }
 
-        public void Close()
+        public int ReadUpTime(byte node)
         {
-            TraceQueue.Enqueue(DateTime.Now.ToString(AppConstants.GenericTimestampFormat) + " " + "State: " + "Closed");
-            _sp.Close();
+            int retval = 0;
+            var resp = WriteRead("#" + node.ToString("X2") + " " + "READ:UPTIME?");
+            if (resp == null)
+                return 0;
+            else if (int.TryParse(resp, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out retval))
+                return retval;
+            else
+                return 0;
         }
 
-
+        public void Close()
+        {
+            TraceQueue.Enqueue(DateTime.Now.ToString(AppConstants.GenericTimestampFormat) + " " + "Serial Port is: " + "Close");
+            _sp.Close();
+            OnConnectionChanged();
+        }
 
         public void Trace(string msg)
         {
+            TraceLines++;
             TraceQueue.Enqueue(DateTime.Now.ToString(AppConstants.GenericTimestampFormat) + " " + msg);
+        }
+
+        public void TraceClear()
+        {
+            TraceQueue.Clear();
+            TraceLines = 0;
+        }
+        protected virtual void OnConnectionChanged()
+        {
+            EventHandler handler = ConnectionChanged;
+            handler?.Invoke(this, EventArgs.Empty);
         }
     }
 }

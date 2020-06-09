@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Konvolucio.MCEL181123.Controls;
+﻿
 
-namespace Konvolucio.MCEL181123.View
+namespace Konvolucio.MCEL181123.Calib.View
 {
-    public partial class CalibrationNode : UserControl
+
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Data;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using Controls;
+
+    public partial class ConfigsNode : UserControl
     {
-        public CalibrationNode()
+        public ConfigsNode()
         {
             InitializeComponent();
-            this.Name = "CalibrationNode";
+            this.Name = "ConfigsNode";
         }
 
         private void configItemControl_Send(object sender, EventArgs e)
@@ -27,6 +30,7 @@ namespace Konvolucio.MCEL181123.View
             {
                 DevIoSrv.Instance.SetVolt(0, double.Parse(config.Volts));
                 DevIoSrv.Instance.SetAmpers(0, double.Parse(config.Ampers));
+                DevIoSrv.Instance.SetCurrRange(0, config.CurrentLimit);
                 if (config.Remote)
                     DevIoSrv.Instance.SetSenseRemote(0);
                 if (config.Local)
@@ -38,6 +42,11 @@ namespace Konvolucio.MCEL181123.View
             {
                 DevIoSrv.Instance.Trace(ex.Message);
             }
+        }
+
+        private void configItemControl1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

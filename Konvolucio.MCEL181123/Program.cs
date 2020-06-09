@@ -1,5 +1,5 @@
 ﻿
-namespace Konvolucio.MCEL181123
+namespace Konvolucio.MCEL181123.Calib
 {
     using System;
     using System.Collections.Generic;
@@ -35,14 +35,13 @@ namespace Konvolucio.MCEL181123
 
     public class App : IApp
     {
+
         public static SynchronizationContext SyncContext = null;
 
         IMainForm _mainForm;
 
         public App()
         {
-
-
             /*** Application Settings Upgrade ***/
             if (Settings.Default.ApplictionSettingsSaveCounter == 0)
             {
@@ -52,7 +51,6 @@ namespace Konvolucio.MCEL181123
             Settings.Default.ApplictionSettingsSaveCounter++;
             Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Settings_PropertyChanged);
 
-
             /*** Main Form ***/
             _mainForm = new MainForm();
             _mainForm.Text = AppConstants.SoftwareTitle + " - " + Application.ProductVersion;
@@ -60,6 +58,10 @@ namespace Konvolucio.MCEL181123
             _mainForm.FormClosing += MainForm_FormClosing;
             _mainForm.FormClosed += new FormClosedEventHandler(MainForm_FormClosed);
 
+            DevIoSrv.Instance.ConnectionChanged += (o, e) =>
+            {
+                EventAggregator.Instance.Publish(new ConnectionChangedAppEvent(DevIoSrv.Instance.IsOpen));
+            };
 
             /*** TimerService ***/
             TimerService.Instance.Interval = Settings.Default.GuiRefreshRateMs;
@@ -71,9 +73,11 @@ namespace Konvolucio.MCEL181123
                 {
                     string str = DevIoSrv.Instance.TraceQueue.Dequeue();
                     if (str.Contains("Rx:"))
-                        _mainForm.RichTextBoxTrace.AppendText(str + "\r\n", System.Drawing.Color.Red, false);
+                        _mainForm.RichTextBoxTrace.AppendText(str + "\r\n", System.Drawing.Color.DarkGreen, false);
                     else if (str.Contains("Tx:"))
                         _mainForm.RichTextBoxTrace.AppendText(str + "\r\n", System.Drawing.Color.Blue);
+                    else if (str.Contains("ERROR"))
+                        _mainForm.RichTextBoxTrace.AppendText(str + "\r\n", System.Drawing.Color.Red);
                     else
                         _mainForm.RichTextBoxTrace.AppendText(str + "\r\n", System.Drawing.Color.Black);
                 }
@@ -86,6 +90,7 @@ namespace Konvolucio.MCEL181123
                 new ToolStripItem[]
                 {
                     new Commands.OptionsCommand(this)
+
                 });
 
             var helpMenu = new ToolStripMenuItem("Help");
@@ -96,6 +101,7 @@ namespace Konvolucio.MCEL181123
                     // new Commands.UpdatesCommands(),
                  });
 
+
             var runMenu = new ToolStripMenuItem("Run");
             runMenu.DropDown.Items.AddRange(
             new ToolStripItem[]
@@ -105,26 +111,35 @@ namespace Konvolucio.MCEL181123
 
             _mainForm.MenuBar = new ToolStripItem[]
                 {
-                   // configMenu,
-                    runMenu,
-                    //viewMenu,
-                    helpMenu,
+                   new Commands.ComPortSelectCommand(this),
+                   new Commands.StartStopCommand(this),
+                   //configMenu,
+                   //runMenu,
+                   //viewMenu,
+                   //helpMenu,
                 };
             #endregion
-
-
-
 
             /*** StatusBar ***/    
             #region StatusBar
             _mainForm.StatusBar = new ToolStripItem[]
             {
-                new StatusBar.AppLogStatus(),               
+                new StatusBar.LogLinesStatus(),   
+                new StatusBar.UpTimeCounterStatus(),
                 new StatusBar.EmptyStatus(),
                 new StatusBar.VersionStatus(),
                 new StatusBar.LogoStatus(),
             };
             #endregion
+
+
+            /*** Trace Context Menu ***/
+            _mainForm.RichTextBoxTrace.ContextMenuStrip = new ContextMenuStrip();
+            _mainForm.RichTextBoxTrace.ContextMenuStrip.Items.AddRange( new ToolStripItem[]
+            {
+                new Commands.ClearReachTextBoxCommand(_mainForm.RichTextBoxTrace),
+            });
+
 
             /*** Run ***/
             Application.Run((MainForm)_mainForm);
@@ -136,7 +151,6 @@ namespace Konvolucio.MCEL181123
             EventAggregator.Instance.Publish(new TreeNodeChangedAppEvent(e.Node));
         }
 
-
         void MainForm_Shown(object sender, EventArgs e)
         {
 #if TRACE
@@ -146,7 +160,6 @@ namespace Konvolucio.MCEL181123
             SyncContext = SynchronizationContext.Current;
             _mainForm.LayoutRestore();
 
-
             //_mainForm.LayoutRestore();
             /*Ö tölti be a projectet*/
             Start(Environment.GetCommandLineArgs());
@@ -154,7 +167,18 @@ namespace Konvolucio.MCEL181123
             /*Kezdő Node Legyen az Adapter node*/
             //EventAggregator.Instance.Publish<TreeViewSelectionChangedAppEvent>(new TreeViewSelectionChangedAppEvent(_startTreeNode));
 
+            if (Settings.Default.OpenAfterStartUp)
+            {
+                if (!string.IsNullOrWhiteSpace(Settings.Default.SeriaPortName))
+                {
+                    DevIoSrv.Instance.Open(Settings.Default.SeriaPortName);
+                }
+            }    
+
             EventAggregator.Instance.Publish(new ShowAppEvent());
+
+
+
         }
 
         public void Start(string[] args)
@@ -192,6 +216,5 @@ namespace Konvolucio.MCEL181123
                 TimerService.Instance.Interval = Settings.Default.GuiRefreshRateMs;
             }
         }
-
     }
 }

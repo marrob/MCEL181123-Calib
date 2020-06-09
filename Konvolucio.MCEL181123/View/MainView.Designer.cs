@@ -1,4 +1,4 @@
-﻿namespace Konvolucio.MCEL181123.View
+﻿namespace Konvolucio.MCEL181123.Calib.View
 {
     partial class MainView
     {
@@ -28,9 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Kapcsolódás");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Funkciók");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Kalibráció");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Sugó");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Konfigurációk");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Feszültségmérés");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Árammérés");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Funkciók");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Beállítások");
             this.treeViewNavigator = new System.Windows.Forms.TreeView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -43,16 +46,25 @@
             this.treeViewNavigator.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewNavigator.Location = new System.Drawing.Point(0, 0);
             this.treeViewNavigator.Name = "treeViewNavigator";
-            treeNode1.Name = "ConnectionNode";
-            treeNode1.Text = "Kapcsolódás";
-            treeNode2.Name = "FunctionsNode";
-            treeNode2.Text = "Funkciók";
-            treeNode3.Name = "CalibrationNode";
-            treeNode3.Text = "Kalibráció";
+            treeNode1.Name = "HelpNode";
+            treeNode1.Text = "Sugó";
+            treeNode2.Name = "ConfigsNode";
+            treeNode2.Text = "Konfigurációk";
+            treeNode3.Name = "VoltageMeasNode";
+            treeNode3.Text = "Feszültségmérés";
+            treeNode4.Name = "CurrentMeasNode";
+            treeNode4.Text = "Árammérés";
+            treeNode5.Name = "FunctionsNode";
+            treeNode5.Text = "Funkciók";
+            treeNode6.Name = "SettingsNode";
+            treeNode6.Text = "Beállítások";
             this.treeViewNavigator.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
-            treeNode3});
+            treeNode3,
+            treeNode4,
+            treeNode5,
+            treeNode6});
             this.treeViewNavigator.Size = new System.Drawing.Size(136, 327);
             this.treeViewNavigator.TabIndex = 2;
             this.treeViewNavigator.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewNavigator_AfterSelect);

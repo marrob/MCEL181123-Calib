@@ -1,5 +1,5 @@
 ﻿
-namespace Konvolucio.MCEL181123.View
+namespace Konvolucio.MCEL181123.Calib.View
 {
     using System;
     using System.ComponentModel;
@@ -9,7 +9,7 @@ namespace Konvolucio.MCEL181123.View
     using System.IO;        /*Required for the Path class.*/
     using System.Diagnostics;    /*Required for the process classes.*/
     using System.Reflection;
-    using Konvolucio.MCEL181123.Controls;
+    using Controls;
 
     /// <summary>
     /// 

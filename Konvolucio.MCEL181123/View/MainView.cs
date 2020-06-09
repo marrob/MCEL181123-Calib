@@ -8,14 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Konvolucio.MCEL181123.View
+namespace Konvolucio.MCEL181123.Calib.View
 {
     public partial class MainView : UserControl
     {
-        private readonly ConnectionNode _connectionPanel;
-        private readonly CalibrationNode _calibrationNode;
+        private readonly HelpNode _helpNode;
+        private readonly SettingsNode _settingsPanel;
+        private readonly ConfigsNode _configsNode;
+        private readonly CurrentMeasNode _currentMeasNode;
         private readonly FunctionsNode _measurementsNode;
-
+        private readonly VoltageMeasNode _voltageMeasNode;
 
         private readonly UserControl[] _ctrlPanels;
 
@@ -25,9 +27,12 @@ namespace Konvolucio.MCEL181123.View
 
             _ctrlPanels = new UserControl[]
             {
-                _connectionPanel = new ConnectionNode() { Dock = DockStyle.Fill },
-                _calibrationNode = new CalibrationNode() { Dock = DockStyle.Fill },
+                _helpNode = new HelpNode() { Dock = DockStyle.Fill },
+                _settingsPanel = new SettingsNode() { Dock = DockStyle.Fill },
+                _configsNode = new ConfigsNode() { Dock = DockStyle.Fill },
                 _measurementsNode = new FunctionsNode() { Dock = DockStyle.Fill },
+                _currentMeasNode = new CurrentMeasNode() { Dock = DockStyle.Fill },
+                _voltageMeasNode = new VoltageMeasNode() { Dock = DockStyle.Fill },
             };
         }
 
@@ -36,12 +41,16 @@ namespace Konvolucio.MCEL181123.View
             var selectedPanel = _ctrlPanels.FirstOrDefault(n => n.Name == e.Node.Name);
             if (selectedPanel != null)
             {
-                splitContainer1.Panel2.Controls.Clear();
-                splitContainer1.Panel2.Controls.Add(selectedPanel);
-                if (selectedPanel is IUIPanelProperties)
-                {          
-                    (selectedPanel as IUIPanelProperties).UiUpdate();
-                }
+                var ctrl = splitContainer1.Panel2.Controls;
+
+                if (ctrl.Count != 0 && ctrl[0] is IUIPanelProperties)
+                    (ctrl[0] as IUIPanelProperties).UserLeave();
+
+                ctrl.Clear();
+                ctrl.Add(selectedPanel);
+
+                if (selectedPanel is IUIPanelProperties)       
+                    (selectedPanel as IUIPanelProperties).UserEnter();
             }
         }
     }

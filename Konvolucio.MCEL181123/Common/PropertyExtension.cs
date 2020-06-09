@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Konvolucio.MCEL181123.Common
+namespace Konvolucio.MCEL181123.Calib.Common
 {
     using System;
     using System.Collections.Generic;

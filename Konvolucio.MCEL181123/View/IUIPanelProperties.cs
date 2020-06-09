@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Konvolucio.MCEL181123.View
+namespace Konvolucio.MCEL181123.Calib.View
 {
     public interface IUIPanelProperties
     {
-        void UiUpdate();
+        void UserEnter();
+        void UserLeave();
     }
 }
