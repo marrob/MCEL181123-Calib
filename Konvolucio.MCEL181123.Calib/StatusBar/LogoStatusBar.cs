@@ -4,9 +4,9 @@ namespace Konvolucio.MCEL181123.Calib.StatusBar
 {
     using System.Windows.Forms;
 
-    class LogoStatus : ToolStripStatusLabel
+    class LogoStatusBar : ToolStripStatusLabel
     {
-        public LogoStatus()
+        public LogoStatusBar()
         {
             BackColor = System.Drawing.Color.Orange;
             Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

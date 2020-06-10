@@ -4,9 +4,9 @@ namespace Konvolucio.MCEL181123.Calib.StatusBar
 {
     using System.Windows.Forms;
 
-    class EmptyStatus : ToolStripStatusLabel
+    class EmptyStatusBar : ToolStripStatusLabel
     {
-        public EmptyStatus()
+        public EmptyStatusBar()
         {
             Spring = true;
         }

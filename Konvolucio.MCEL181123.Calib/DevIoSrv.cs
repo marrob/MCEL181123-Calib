@@ -13,6 +13,18 @@ namespace Konvolucio.MCEL181123.Calib
     public class DevIoSrv
     {
 
+        public enum Senese
+        {
+            Local, 
+            Remote
+        }
+
+        public enum CurrentRange
+        {
+            Current_100mA,
+            Current_50uA
+        }
+
         public event EventHandler ConnectionChanged;
 
         public static DevIoSrv Instance { get { return _instance; } }
@@ -34,9 +46,36 @@ namespace Konvolucio.MCEL181123.Calib
             }
         }
 
+        Senese _lastSense;
+        public Senese GetLastSense 
+        {
+            get { return _lastSense; }
+            set { _lastSense = value; }
+        }
+
+        double _lastCurrent;
+        public double GetLastCurrentLimit
+        {
+            get { return _lastCurrent; }
+            set { _lastCurrent = value; }
+        }
+
+        double _lastVoltage;
+        public double GetLastVoltage
+        {
+            get { return _lastVoltage; }
+            set { _lastVoltage = value; }
+        }
+
+        CurrentRange _lastCurrentRange;
+        public CurrentRange GetLastCurrentRange 
+        {
+            get { return _lastCurrentRange; }
+            set { _lastCurrentRange = value; }
+        }
+
         public static string[] GetPortNames()
         {
-            // Get a list of serial port names.
             return (SerialPort.GetPortNames());
         }
 
@@ -170,16 +209,18 @@ namespace Konvolucio.MCEL181123.Calib
             return "na";
         }
 
-        public void SetCurrRange(byte node, string range)
+        public void SetCurrRange(byte node, CurrentRange range)
         {
             if (_sp == null || !_sp.IsOpen)
                 return;
 
-            if (range == "100mA")
+            _lastCurrentRange = range;
+
+            if (range == CurrentRange.Current_100mA)
             {
                 WriteRead("#" + node.ToString("X2") + " " + "SET:RNG 0");
             }
-            else if (range == "50uA")
+            else if (range == CurrentRange.Current_50uA)
             {
                 WriteRead("#" + node.ToString("X2") + " " + "SET:RNG 1");
             }
@@ -193,6 +234,7 @@ namespace Konvolucio.MCEL181123.Calib
 
         public void SetVolt(byte node, double volt)
         {
+            _lastVoltage = volt;
             WriteRead("#" + node.ToString("X2") + " " + "SET:VOLT" + "  " + volt.ToString());
         }
 
@@ -206,19 +248,19 @@ namespace Konvolucio.MCEL181123.Calib
             WriteRead("#" + node.ToString("X2") + " " + "SET:OE 0");
         }
 
-        public void SetAmpers(byte node, double current)
+        public void SetCurrentLimit(byte node, double current)
         {
+            _lastCurrent = current;
             WriteRead("#" + node.ToString("X2") + " " + "SET:CURR" + "  " + current.ToString());
         }
 
-        public void SetSenseLocal(byte node)
+        public void SetSense(byte node, Senese sense)
         {
-            WriteRead("#" + node.ToString("X2") + " " + "SET:RSENSE 0");
-        }
-
-        public void SetSenseRemote(byte node)
-        {
-            WriteRead("#" + node.ToString("X2") + " " + "SET:RSENSE 1");
+            _lastSense = sense;
+            if(Senese.Local ==  sense)
+                WriteRead("#" + node.ToString("X2") + " " + "SET:RSENSE 0");
+            else if(Senese.Remote == sense)
+                WriteRead("#" + node.ToString("X2") + " " + "SET:RSENSE 1");
         }
 
         public void SetTriggerVolt(byte node)

@@ -10,6 +10,7 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using Controls;
+    using Events;
 
     public partial class FunctionsNode : UserControl, IUIPanelProperties
     {
@@ -44,24 +45,29 @@
 
         private void button3_Click_2(object sender, EventArgs e)
         {
+            if(comboBox1.Text == "100mA")
+                DevIoSrv.Instance.SetCurrRange(0, DevIoSrv.CurrentRange.Current_100mA);
+            else if(comboBox1.Text == "50uA")
+                DevIoSrv.Instance.SetCurrRange(0, DevIoSrv.CurrentRange.Current_50uA);
 
-            DevIoSrv.Instance.SetCurrRange(0, comboBox1.SelectedItem.ToString());
-            
-            DevIoSrv.Instance.SetAmpers(0, double.Parse(textBoxSetCurrent.Text));
+            DevIoSrv.Instance.SetCurrentLimit(0, double.Parse(textBoxSetCurrent.Text));
             DevIoSrv.Instance.SetVolt(0, double.Parse(textBoxSetVolt.Text));
 
             if (radioButton1.Checked)
-                DevIoSrv.Instance.SetSenseRemote(0);
+                DevIoSrv.Instance.SetSense(0, DevIoSrv.Senese.Remote);
 
             if (radioButton2.Checked)
-                DevIoSrv.Instance.SetSenseLocal(0);
+                DevIoSrv.Instance.SetSense(0, DevIoSrv.Senese.Local);
 
             if (radioButton3.Checked)
                 DevIoSrv.Instance.OutputOff(0);
 
             if (radioButton4.Checked)
                 DevIoSrv.Instance.OutputOn(0);
-            
+
+
+            EventAggregator.Instance.Publish(new ConfigsChangedAppEvent());
+
         }
 
         public void UserLeave()

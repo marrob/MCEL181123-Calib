@@ -124,11 +124,15 @@ namespace Konvolucio.MCEL181123.Calib
             #region StatusBar
             _mainForm.StatusBar = new ToolStripItem[]
             {
-                new StatusBar.LogLinesStatus(),   
-                new StatusBar.UpTimeCounterStatus(),
-                new StatusBar.EmptyStatus(),
+                new StatusBar.LogLinesStatusBar(),   
+                new StatusBar.UpTimeCounterStatusBar(),
+                new StatusBar.CurrentRangeStatusBar(),
+                new StatusBar.CurrentLimitStatusBar(),
+                new StatusBar.VoltageStatusBar(),
+                new StatusBar.SeneseStatusBar(),
+                new StatusBar.EmptyStatusBar(),
                 new StatusBar.VersionStatus(),
-                new StatusBar.LogoStatus(),
+                new StatusBar.LogoStatusBar(),
             };
             #endregion
 
@@ -170,15 +174,10 @@ namespace Konvolucio.MCEL181123.Calib
             if (Settings.Default.OpenAfterStartUp)
             {
                 if (!string.IsNullOrWhiteSpace(Settings.Default.SeriaPortName))
-                {
                     DevIoSrv.Instance.Open(Settings.Default.SeriaPortName);
-                }
             }    
 
             EventAggregator.Instance.Publish(new ShowAppEvent());
-
-
-
         }
 
         public void Start(string[] args)
@@ -204,7 +203,6 @@ namespace Konvolucio.MCEL181123.Calib
             _mainForm.LayoutSave();
             Settings.Default.Save();
             EventAggregator.Instance.Dispose();
-            Settings.Default.Save();
         }
 
         void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)

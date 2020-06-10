@@ -27,16 +27,9 @@ namespace Konvolucio.MCEL181123.Calib.View
         {
             checkBoxOpenAfterStart.Checked = Settings.Default.OpenAfterStartUp;
             checkBoxUpTimeCounterPeriodicUpdateCheck.Checked = Settings.Default.UpTimeCounterPeriodicUpdate;
+            numericPeriodicUpdate.Value = Settings.Default.GuiRefreshRateMs;
         }
     
-
-
-        private void CheckBoxOpenAfterStart_CheckedChanged(object sender, EventArgs e)
-        {
-            Settings.Default.OpenAfterStartUp = checkBoxOpenAfterStart.Checked;
-            Settings.Default.UpTimeCounterPeriodicUpdate = checkBoxUpTimeCounterPeriodicUpdateCheck.Checked;
-        }
-
         private void button1_Click_1(object sender, EventArgs e)
         {
             DevIoSrv.Instance.Test();
@@ -50,6 +43,16 @@ namespace Konvolucio.MCEL181123.Calib.View
         public void UserLeave()
         {
 
+        }
+
+        private void checkBoxOpenAfterStart_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.OpenAfterStartUp = checkBoxOpenAfterStart.Checked;
+        }
+
+        private void numericPeriodicUpdate_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Default.GuiRefreshRateMs = (int)numericPeriodicUpdate.Value;
         }
     }
 }
